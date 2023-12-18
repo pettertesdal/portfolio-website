@@ -1,0 +1,57 @@
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+
+    color: #232320;
+    background-color: #fffbf6;
+
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-text-size-adjust: 100%;
+    font-size: 17pt;
+
+    --background: #fffbf6;
+    --foreground: #232320;
+    --headerHeight: 4.5rem;
+}
+
+
+
+@font-face {
+  font-family: "Lobster-Regular";
+  font-weight: normal;
+  font-style: normal;
+  src: url("~/assets/fonts/Lobster-Regular.ttf") format("truetype")
+}
+@font-face {
+  font-family: "Rondal";
+  font-weight: normal;
+  font-style: normal;
+  src: url("~/assets/fonts/RondalBold-2O4lW.otf") format("opentype"), url("./assets/fonts/RondalSemibold-vmZ5Z.otf") format("opentype")
+}
+@font-face {
+  font-family: "Sacramento";
+  font-weight: normal;
+  font-style: normal;
+  src: url("~/assets/fonts/Sacramento-Regular.ttf") format("truetype")
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+}
+
+h1 {
+    font-size: 2em;
+    line-height: .67em 0;
+}
+
+@media (max-width: 1200px) {
+    :root {
+    font-size: 15pt;
+
+    }
+}
