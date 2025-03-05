@@ -11,7 +11,7 @@ import Footer from '../components/Footer.vue'
         <div id="content">
             <div id="main-title">
                 <h1>Notes and thoughts</h1>
-                <router-link to="fitness">Fitness</router-link>
+                <!-- <router-link to="fitness">Fitness</router-link> -->
                 <hr>
             </div>
             <div id="timeline">
