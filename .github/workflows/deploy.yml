@@ -25,7 +25,7 @@ jobs:
           git pull origin main  # Pull the latest changes
           npm install            # Install dependencies (if needed)
           npm run build          # Build your app (if needed)
-          sudo systemctl restart your-app.service  # Restart your app service
+          sudo /bin/systemctl restart portfolio-website.service  # Restart your app service
         EOF
       env:
         HOST: ${{ secrets.VM_IP }}  # Set VM IP if needed
