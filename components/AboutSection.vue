@@ -34,7 +34,6 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
 import * as THREE from "three";
 
 const leftCanvas = ref(null);
@@ -56,7 +55,7 @@ const createWavyLine = (canvasRef, isLeft) => {
   const numPoints = 100;
   let points = [];
   for (let i = 0; i < numPoints; i++) {
-    points.push(new THREE.Vector3(0, (i / numPoints) * 6 - 3, 0));
+            points.push(new THREE.Vector3(0, (i / numPoints) * window.innerHeight * 0.02 - 4, 0));
   }
 
   let curve = new THREE.CatmullRomCurve3(points);
@@ -69,16 +68,21 @@ const createWavyLine = (canvasRef, isLeft) => {
   let waveAmplitude = 0.3; // Initial amplitude (straight line)
   let lastScrollY = window.scrollY;
   let isScrolling = false;
-  let waveOffsetY = 0.05; // Controls downward shift of the wave pattern
+  let waveOffsetY = 0.00; // Controls downward shift of the wave pattern
+  let scrollSpeed = 0;
 
   // Detect Scroll
   window.addEventListener("scroll", () => {
+            let newScrollY = window.scrollY;
+            scrollSpeed = Math.abs(newScrollY - lastScrollY) * 0.02; // Convert to a usable range
     isScrolling = true;
-    waveAmplitude = Math.min(waveAmplitude + 0.05, 0.5); // Increase amplitude
+    waveAmplitude = Math.min(waveAmplitude + scrollSpeed, 0.5); // Increase amplitude
+            lastScrollY = newScrollY;
   });
 
   function animate() {
     requestAnimationFrame(animate);
+
 
     // If scrolling, increase wave amplitude
     if (isScrolling) {
@@ -116,7 +120,7 @@ onMounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 90vh;
+  min-height: 10vh;
   background: black;
   color: white;
   padding: 50px 20px;
@@ -159,10 +163,11 @@ li {
 
 /* Three.js Lines */
 .canvas-container {
-  position: absolute;
+  position: fixed;
   width: 100px;
   height: 100vh;
   top: 0;
+  z-index: 0;
 }
 
 .left {

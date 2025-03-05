@@ -51,13 +51,20 @@ onMounted(() => {
     let geometry = new THREE.TubeGeometry(curve, 100, 0.02, 8, false);
     const material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
     const flowingLines = new THREE.Mesh(geometry, material);
+    flowingLines.position.set(0, 0.8, 0);
     scene.add(flowingLines);
+
+    let lastTime = performance.now(); // Track last frame timestamp
 
     // Animation Loop
     function animate() {
         requestAnimationFrame(animate);
 
-        time += 0.05; // Increment time for movement
+        let now = performance.now();
+        let deltaTime = (now - lastTime) / 1000; // Convert to seconds
+        lastTime = now;
+
+        time += deltaTime*1.5; // Increment time for movement
 
         // Update the curve dynamically
         curve = updatePoints();
@@ -91,6 +98,7 @@ onMounted(() => {
     background: black;
     color: white;
     overflow: hidden;
+    z-index: 1;
 }
 
 /* Three.js Canvas */
@@ -100,7 +108,7 @@ onMounted(() => {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 1;
 }
 
 /* Hero Content */
