@@ -1,20 +1,12 @@
+<script>
+definePageMeta({
+  layout: 'empty'
+})
+
+</script>
 <template>
     <div id="content">
-        <div id="about">
-            <div id="aboutLine"></div>
-            <h1 id="aboutTitle">About me</h1>
-            <div id="aboutP">
-                <p>I'm a fresh and</p>
-                <p>new computer engineer</p>
-                <p>from Norway I have a knack for picking up interests hobbies and I relish the oppurtunity for challenge.</p>
-            </div>
-        </div>
-        <div id="personal">
-            <h1>Personal info</h1>
-        </div>
-        <h1>Studies</h1>
-        <h1>Experience</h1>
-        <h1>Skills</h1>
+        <AboutSection />
     </div>
 </template>
 <style scoped>

@@ -31,7 +31,7 @@ const props = defineProps({
 .main-content {
     margin: 1rem;
     flex-grow: 1;
-    width: 25%;
+    width: 45%;
     order:2
 }
 .background-right {
