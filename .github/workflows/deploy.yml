@@ -1,0 +1,33 @@
+name: Deploy to VM
+
+on:
+  push:
+    branches:
+      - main  # Trigger on changes to the main branch
+  
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up SSH
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: SSH into VM and deploy
+      run: |
+        ssh -o StrictHostKeyChecking=no tesdap@5.249.254.245<< 'EOF'
+          cd portfolio-website
+          git pull origin main  # Pull the latest changes
+          npm install            # Install dependencies (if needed)
+          npm run build          # Build your app (if needed)
+          sudo systemctl restart your-app.service  # Restart your app service
+        EOF
+      env:
+        HOST: ${{ secrets.VM_IP }}  # Set VM IP if needed
+        USER: ${{ secrets.VM_USER }}  # Set VM user if needed
+
