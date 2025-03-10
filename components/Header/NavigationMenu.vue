@@ -138,6 +138,7 @@ defineProps({
         flex-direction: column;
         position: absolute;
         width: 300px;
+        height: 100vh;
         margin: -100px 0 0 -50px;
         padding: 50px;
         padding-top: 125px;

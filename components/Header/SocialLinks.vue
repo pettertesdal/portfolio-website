@@ -42,5 +42,20 @@ export default {
     width: 20px;
 }
 
+@media (min-width: 801px) {
+
+    .social_container {
+        order: 3;
+    }
+}
+
+@media (max-width: 800px) {
+    .social_container {
+        order: 3;
+        display: none;
+    }
+}
+
+
 </style>
 
