@@ -48,14 +48,15 @@ const createWavyLine = (canvasRef, isLeft) => {
   camera.position.z = 5;
 
   const renderer = new THREE.WebGLRenderer({ alpha: true });
-  renderer.setSize(100, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio); // For high DPI screens
   canvasRef.value.appendChild(renderer.domElement);
 
   // Create Points for the Line
   const numPoints = 100;
   let points = [];
   for (let i = 0; i < numPoints; i++) {
-            points.push(new THREE.Vector3(0, (i / numPoints) * window.innerHeight * 0.02 - 4, 0));
+    let yPos = (i / numPoints) * 8 - 4; // Spread points vertically
+    points.push(new THREE.Vector3(0, yPos, 0)); // Start in the center (x = 0)
   }
 
   let curve = new THREE.CatmullRomCurve3(points);
@@ -63,6 +64,8 @@ const createWavyLine = (canvasRef, isLeft) => {
   let material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
   let lineMesh = new THREE.Mesh(geometry, material);
   scene.add(lineMesh);
+
+  lineMesh.position.set(0, 0, 0);
 
   // Scrolling-Based Wave Effect
   let waveAmplitude = 0.3; // Initial amplitude (straight line)
@@ -73,30 +76,46 @@ const createWavyLine = (canvasRef, isLeft) => {
 
   // Detect Scroll
   window.addEventListener("scroll", () => {
-            let newScrollY = window.scrollY;
-            scrollSpeed = Math.abs(newScrollY - lastScrollY) * 0.02; // Convert to a usable range
+    let newScrollY = window.scrollY;
+    scrollSpeed = Math.abs(newScrollY - lastScrollY) * 0.01; // Convert to a usable range
     isScrolling = true;
-    waveAmplitude = Math.min(waveAmplitude + scrollSpeed, 0.5); // Increase amplitude
-            lastScrollY = newScrollY;
+    waveAmplitude = Math.min(waveAmplitude + scrollSpeed, 0.3); // Decrease amplitude growth to fit within window width
+    lastScrollY = newScrollY;
   });
+
+  window.addEventListener("resize", () => {
+    const width = canvasRef.value.offsetWidth;
+    const height = window.innerHeight;
+
+    renderer.setSize(width, height);
+    camera.aspect = width / height;  // Keep aspect ratio consistent
+    camera.updateProjectionMatrix(); // Update camera on resize
+  });
+
+  // Initialize the renderer size based on container's width
+  const width = canvasRef.value.offsetWidth;
+  const height = window.innerHeight;
+  renderer.setSize(width, height);
+  camera.aspect = width / height;  // Set initial aspect ratio
+  camera.updateProjectionMatrix(); // Update camera aspect
 
   function animate() {
     requestAnimationFrame(animate);
 
-
     // If scrolling, increase wave amplitude
     if (isScrolling) {
-      waveAmplitude = Math.min(waveAmplitude + 0.55, 10.5); // Grow up to max
+      waveAmplitude = Math.min(waveAmplitude + 0.1, 0.3); // Limit max amplitude to avoid overflow
       waveOffsetY += 0.15; // Scroll moves the wave pattern downward
       isScrolling = false; // Reset scroll state
     } else {
-      waveAmplitude = Math.max(waveAmplitude - 0.005, 0.3); // Slowly fade back
+      waveAmplitude = Math.max(waveAmplitude - 0.005, 0.1); // Slowly fade back
       waveOffsetY += 0.05; // Scroll moves the wave pattern downward
     }
 
     // Apply Sinusoidal Motion + Downward Wave Flow
+    const maxWidth = canvasRef.value.offsetWidth * 0.01; // Limit wave width to 50% of container width
     for (let i = 0; i < points.length; i++) {
-      points[i].x = Math.sin(i * 0.2 + waveOffsetY) * waveAmplitude * (isLeft ? 1 : -1);
+      points[i].x = Math.sin(i * 0.2 + waveOffsetY) * waveAmplitude * maxWidth * (isLeft ? -1 : 1); // Scale based on maxWidth
     }
 
     curve = new THREE.CatmullRomCurve3(points);
@@ -108,6 +127,7 @@ const createWavyLine = (canvasRef, isLeft) => {
 
   animate();
 };
+
 
 onMounted(() => {
   createWavyLine(leftCanvas, true);

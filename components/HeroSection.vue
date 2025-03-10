@@ -20,28 +20,33 @@ onMounted(() => {
 
     // Scene, Camera, Renderer
     const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(
-        75,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
+    const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
     camera.position.z = 5;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
     canvasContainer.value.appendChild(renderer.domElement);
+
+    // Function to update size
+    function updateSize() {
+        const width = canvasContainer.value.clientWidth;
+        const height = canvasContainer.value.clientHeight;
+        renderer.setSize(width, height);
+        camera.aspect = width / height;
+        camera.updateProjectionMatrix();
+    }
+
+    updateSize(); // Initial setup
 
     // Create Dynamic Flowing Line
     const numPoints = 100;
     let points = [];
-    let time = 0; // Keep track of time for animation
+    let time = 0;
 
     function updatePoints() {
         points = [];
         for (let i = 0; i < numPoints; i++) {
-            const x = (i / numPoints) * 10 - 5 // Move to the right over time
-            const y = Math.sin(i * 0.3 + time) * 0.5; // Animate the wave dynamically
+            const x = (i / numPoints) * 10 - 5;
+            const y = Math.sin(i * 0.3 + time) * 0.5;
             points.push(new THREE.Vector3(x, y, 0));
         }
         return new THREE.CatmullRomCurve3(points);
@@ -54,17 +59,16 @@ onMounted(() => {
     flowingLines.position.set(0, 0.8, 0);
     scene.add(flowingLines);
 
-    let lastTime = performance.now(); // Track last frame timestamp
+    let lastTime = performance.now();
 
-    // Animation Loop
     function animate() {
         requestAnimationFrame(animate);
 
         let now = performance.now();
-        let deltaTime = (now - lastTime) / 1000; // Convert to seconds
+        let deltaTime = (now - lastTime) / 1000;
         lastTime = now;
 
-        time += deltaTime*1.5; // Increment time for movement
+        time += deltaTime * 1.5;
 
         // Update the curve dynamically
         curve = updatePoints();
@@ -76,13 +80,10 @@ onMounted(() => {
 
     animate();
 
-    // Handle window resizing
-    window.addEventListener("resize", () => {
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-    });
+    // Resize event listener
+    window.addEventListener("resize", updateSize);
 });
+
 </script>
 
 <style scoped>

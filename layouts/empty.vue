@@ -18,6 +18,7 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    background: black;
 }
 .content {
     flex: 1;
