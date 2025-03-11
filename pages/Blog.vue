@@ -1,8 +1,9 @@
 <script setup>
-import Header from '../components/Header.vue'
-import Glitched from '../components/Glitched.vue'
-import Background from '../components/vitruvian-background.vue'
-import Footer from '../components/Footer.vue'
+
+definePageMeta({
+  layout: 'default'
+})
+
 
 
 
