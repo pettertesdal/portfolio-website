@@ -5,8 +5,9 @@ definePageMeta({
 })
 
 
-
-
+const { data: posts } = await useAsyncData("posts", () =>
+  queryContent("/blog").sort({ date: -1 }).find()
+);
 </script>
 <template>
         <div id="content">
@@ -16,6 +17,15 @@ definePageMeta({
                 <hr>
             </div>
             <div id="timeline">
+                <ul>
+                  <li v-for="post in posts" :key="post._path">
+                    <NuxtLink :to="post._path">
+                      <h2>{{ post.title }}</h2>
+                      <p>{{ post.excerpt }}</p>
+                      <p><em>{{ post.date }}</em></p>
+                    </NuxtLink>
+                  </li>
+                </ul>
             </div>
         </div>
 </template>
@@ -31,3 +41,4 @@ definePageMeta({
 }
 
 </style>
+
