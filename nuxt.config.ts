@@ -7,6 +7,7 @@ export default defineNuxtConfig({
     // prerender index route by default
     '/': { prerender: true },
   },
+  css: ["@/assets/style.css"], // ✅ Correct way to include CSS in Nuxt
 
   compatibilityDate: '2025-03-13',
 });

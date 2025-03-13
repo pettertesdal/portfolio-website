@@ -15,7 +15,9 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
+    "@nuxt/content": "^3.3.0",
     "three": "^0.174.0",
+    "unist-util-visit": "^5.0.0",
     "vue-screen-size": "^2.1.0"
   }
 }
