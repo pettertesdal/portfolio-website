@@ -25,4 +25,13 @@ body {
     padding-top: var(--headerHeight);
     flex: 1;
 }
+
+@media (max-width: 859px) {
+    .background-left, 
+    .background-right {
+        display: none;
+    }
+}
+
+
 </style>

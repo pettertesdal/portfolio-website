@@ -9,17 +9,17 @@ const { data: posts } = await useAsyncData('blogposts', async () => {
 const getReadingTime = (content) => {
   // Remove YAML front matter
   const cleanContent = content.replace(/^---[\s\S]*?---/, '');
-  
+
   // Remove HTML comments
   const textContent = cleanContent.replace(/<!--.*?-->/g, '');
 
   // Split text into words
   const words = textContent.trim().split(/\s+/).length;
-  
+
   // Calculate reading time (200 words per minute)
   const wordsPerMinute = 200;
   const minutes = Math.ceil(words / wordsPerMinute);
-  
+
   return minutes;
 };
 
@@ -35,7 +35,7 @@ function formatDate(date: string): string {
 
 <template>
   <div class="blog-container">
-    <h1 class="blog-title">Articles</h1>
+    <h1 class="blog-title">Blog</h1>
 
     <div v-if="posts && posts.length > 0" class="blog-list">
       <div v-for="post in posts" :key="post.id" >
@@ -64,7 +64,6 @@ function formatDate(date: string): string {
 .blog-container {
   max-width: 600px;
   margin: 0 auto;
-  padding: 20px;
 }
 
 .blog-title {
@@ -72,20 +71,21 @@ function formatDate(date: string): string {
   text-align: center;
 }
 
+
 .blog-list {
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
+
 .blog-post {
-  width: 100%;
   height: 100%;
-  padding: 15px;
   border-radius: 8px;
   background: var(--background);
   box-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   transition: background 0.2s ease-in-out;
+  padding: 15px;
 }
 .blog-link{
   text-decoration: none;
