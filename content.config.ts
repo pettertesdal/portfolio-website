@@ -22,7 +22,33 @@ export default defineContentConfig({
           children: z.any(),
         }),
       })
+    }),
+    workposts: defineCollection({
+      type: 'page',
+      source: 'work/*.md',
+      schema: z.object({
+        date: z.string(),
+        rawbody: z.string(),
+        excerpt: z.object({
+          type: z.string(),
+          children: z.any(),
+        }),
+      })
+    }),
+    languageposts: defineCollection({
+      type: 'page',
+      source: 'skills/languages/*.md',
+      schema: z.object({
+        date: z.string(),
+        rawbody: z.string(),
+        excerpt: z.object({
+          type: z.string(),
+          children: z.any(),
+        }),
+      })
     })
+
+
   }
 })
 

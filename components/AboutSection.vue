@@ -95,6 +95,7 @@ const createWavyLine = (canvasRef, isLeft) => {
   // Initialize the renderer size based on container's width
   const width = canvasRef.value.offsetWidth;
   const height = window.innerHeight;
+
   renderer.setSize(width, height);
   camera.aspect = width / height;  // Set initial aspect ratio
   camera.updateProjectionMatrix(); // Update camera aspect
