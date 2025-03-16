@@ -50,10 +50,11 @@ console.log(route.path)
 .page-content img {
   width: 75%;
   height: auto;
-  box-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   margin: 20px auto; /* Horizontally center the image */
   display: block; /* Ensure it’s treated as a block element for centering */
   border-radius: 8px;
+  border-style: solid;
+  border-width: 1.5px;
 }
 
 .page-content .ContentRenderer {

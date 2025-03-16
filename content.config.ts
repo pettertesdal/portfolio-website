@@ -46,6 +46,30 @@ export default defineContentConfig({
           children: z.any(),
         }),
       })
+    }),
+    technologyposts: defineCollection({
+      type: 'page',
+      source: 'skills/technologies/*.md',
+      schema: z.object({
+        date: z.string(),
+        rawbody: z.string(),
+        excerpt: z.object({
+          type: z.string(),
+          children: z.any(),
+        }),
+      })
+    }),
+    projectposts: defineCollection({
+      type: 'page',
+      source: 'projects/*.md',
+      schema: z.object({
+        date: z.string(),
+        rawbody: z.string(),
+        excerpt: z.object({
+          type: z.string(),
+          children: z.any(),
+        }),
+      })
     })
 
 
