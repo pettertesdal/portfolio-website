@@ -2,7 +2,7 @@
     <div class="navigation_container">
         <nav>
             <div id="menuToggle">
-                <input type="checkbox" />
+                <input ref="menuCheckbox" type="checkbox" />
                 <span />
                 <span />
                 <span />
@@ -24,6 +24,21 @@ defineProps({
         required: true
     }
 })
+
+const menuCheckbox = ref(null);
+
+const closeMenu = () => {
+    if (menuCheckbox.value) {
+        menuCheckbox.value.checked = false;
+    }
+};
+
+// Ensure menu closes when a link is clicked
+onMounted(() => {
+    document.querySelectorAll("#menu a").forEach(link => {
+        link.addEventListener("click", closeMenu);
+    });
+});
 </script>
 <script>
 
