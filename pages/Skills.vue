@@ -14,16 +14,17 @@ const languages = [
   { name: 'Rust', usage: 30, url: 'languages/rust' }
 ];
 const technologies = [
-  { name: 'Nuxt', usage: 30, url: 'technologies/nuxt' },
+  { name: 'Nuxt', usage: 60, url: 'technologies/nuxt' },
   { name: 'Springboot', usage: 30, url: 'technologies/springboot' },
   { name: 'Docker', usage: 30, url: 'technologies/docker' },
-  { name: 'MSSQL', usage: 30, url: 'technologies/mssql' }
+  { name: 'MSSQL', usage: 60, url: 'technologies/mssql' },
 ]
 
 let scene, camera, renderer, tubes, labels, animationFrameId;
 const cardSpacing = 4;
-const totalWidth = languages.length * cardSpacing;
-const cardSpacingTechnology = totalWidth / technologies.length
+const totalWidth = languages.length*cardSpacing;
+const cardSpacingTechnology = 8;
+const totalWidthTechnology = technologies.length*cardSpacingTechnology;
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 let hoveredLabel = null;
@@ -76,7 +77,7 @@ camera = new THREE.OrthographicCamera(
     const tubeMaterial = new THREE.MeshBasicMaterial({ color: getColor(lang.usage), wireframe: false });
 
     const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
-    tube.position.x = index * cardSpacing - totalWidth / 2;
+    tube.position.x = index * cardSpacing - totalWidth/2;
     tubes.add(tube);
 
     // Create label
@@ -84,9 +85,9 @@ camera = new THREE.OrthographicCamera(
     const labelGeometry = new THREE.PlaneGeometry(2, 1);
     const labelMaterial = new THREE.MeshBasicMaterial({ map: label, transparent: true });
     const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial);
-    labelMesh.position.x = (index - 1) * cardSpacing - totalWidth / 2 + 1.5;
-    labelMesh.position.y = (lang.usage / 20) * Math.pow(1, 3) + 1;
-    labelMesh.userData = { url: lang.name.toLowerCase(), originalScale: 1 }; // Store the original scale
+    labelMesh.position.x = (index - 1) * cardSpacing - totalWidth/2 + 1.5;
+    labelMesh.position.y = ((lang.usage / (cardSpacing/2*10)) * Math.pow(1, 3) + 1);
+    labelMesh.userData = { url: lang.url, originalScale: 1 }; // Store the original scale
     labels.add(labelMesh);
   });
   technologies.forEach((lang, index) => {
@@ -95,7 +96,7 @@ camera = new THREE.OrthographicCamera(
     const tubeMaterial = new THREE.MeshBasicMaterial({ color: getColor(lang.usage), wireframe: false });
 
     const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
-    tube.position.x = index * cardSpacingTechnology - totalWidth / 2;
+    tube.position.x = index * cardSpacingTechnology - totalWidth/2;
     tubes.add(tube);
 
     // Create label
@@ -103,11 +104,11 @@ camera = new THREE.OrthographicCamera(
     const labelGeometry = new THREE.PlaneGeometry(2, 1);
     const labelMaterial = new THREE.MeshBasicMaterial({ map: label, transparent: true });
     const labelMesh = new THREE.Mesh(labelGeometry, labelMaterial);
-    labelMesh.position.x = (index - 1) * cardSpacingTechnology - totalWidth / 2 + 1.5;
-    labelMesh.position.y = ((lang.usage / 20) * Math.pow(1, 3) + 1)*-1;
-    labelMesh.userData = { url: lang.name.toLowerCase(), originalScale: 1 }; // Store the original scale
+    labelMesh.position.x = (index) * cardSpacingTechnology - totalWidth/2 - 0.5 ;
+    labelMesh.position.y = ((lang.usage / (cardSpacingTechnology/2*10)) * Math.pow(1, 3) + 1)*-1;
+    labelMesh.userData = { url: lang.url, originalScale: 1 }; // Store the original scale
     labels.add(labelMesh);
-  });
+  });0
 
   scene.add(tubes);
   scene.add(labels);
@@ -120,7 +121,7 @@ var delta = 0;
 function animate() {
   animationFrameId = requestAnimationFrame(animate);
 
-      delta = clock.getDelta();
+  delta = clock.getDelta();
 
   // Move everything left
   tubes.children.forEach(tube => tube.position.x -= speed * delta);
@@ -128,10 +129,10 @@ function animate() {
 
   // Reset position when offscreen
   tubes.children.forEach(tube => {
-    if (tube.position.x < -totalWidth / 2) tube.position.x += totalWidth;
+    if (tube.position.x < -totalWidth/2) tube.position.x += totalWidth;
   });
   labels.children.forEach(label => {
-    if (label.position.x < (-totalWidth / 2) - cardSpacing) label.position.x += totalWidth;
+    if (label.position.x < -totalWidth/2) label.position.x += totalWidth;
   });
 
   renderer.render(scene, camera);
@@ -183,38 +184,41 @@ function onMouseMove(event) {
 function onClick(event) {
   if (hoveredLabel) {
     const url = hoveredLabel.userData.url;
-    navigateTo('skills/languages/'+hoveredLabel.userData.url);
+    navigateTo('skills/'+hoveredLabel.userData.url);
   }
 }
 
 function createTubeCurve(usage) {
   const points = [];
-  const height = usage / 20;
+  const length = cardSpacing/2*10;
+  const height = usage / length;
 
-  for (let i = 0; i <= 20; i++) {
+  for (let i = 0; i <= length; i++) {
     const t = i / 15;
     const x = (t - 1.5) * 3;
 
     let y = 0;
-    if (i <= 10) y = height * Math.pow(i / 10, 3);
-    else y = height * Math.pow((20 - i) / 10, 3);
+    if (i <= length/2) y = height * Math.pow(i / (length/2), 3);
+    else y = height * Math.pow((length - i) / (length/2), 3);
 
     points.push(new THREE.Vector3(x, y, 0));
   }
+
 
   return new THREE.CatmullRomCurve3(points);
 }
 function createTechnologyTubeCurve(usage) {
   const points = [];
-  const height = usage / 20;
+  const length = cardSpacingTechnology/2*10;
+  const height = usage / length;
 
-  for (let i = 0; i <= 20; i++) {
+  for (let i = 0; i <= length; i++) {
     const t = i / 15;
     const x = (t - 1.5) * 3;
 
     let y = 0;
-    if (i <= 10) y = height * Math.pow(i / 10, 3);
-    else y = height * Math.pow((20 - i) / 10, 3);
+    if (i <= length/2) y = height * Math.pow(i / (length/2), 3);
+    else y = height * Math.pow((length - i) / (length/2), 3);
 
     y = y*-1
 
