@@ -29,12 +29,31 @@ const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();
 let hoveredLabel = null;
 
+
+
+let isDragging = false;
+let previousMouseX = 0;
+let velocityX = 0;
+let friction = 0.95; // Controls how fast inertia slows down (0.95 is a good balance)
+let touchStartX = 0;
+let touchDeltaX = 0;
+
 onMounted(() => {
   initScene();
   animate();
   window.addEventListener('resize', handleResize);
   window.addEventListener('mousemove', onMouseMove);
   window.addEventListener('click', onClick);
+
+  // Dragging events
+  window.addEventListener('mousedown', onMouseDown);
+  window.addEventListener('mousemove', onMouseDrag);
+  window.addEventListener('mouseup', onMouseUp);
+
+  // Touch dragging (mobile support)
+  window.addEventListener('touchstart', onTouchStart, { passive: false });
+  window.addEventListener('touchmove', onTouchMove, { passive: false });
+  window.addEventListener('touchend', onTouchEnd);
 });
 
 onUnmounted(() => {
@@ -42,8 +61,20 @@ onUnmounted(() => {
   window.removeEventListener('resize', handleResize);
   window.removeEventListener('mousemove', onMouseMove);
   window.removeEventListener('click', onClick);
+
+  // Remove dragging events
+  window.removeEventListener('mousedown', onMouseDown);
+  window.removeEventListener('mousemove', onMouseDrag);
+  window.removeEventListener('mouseup', onMouseUp);
+
+  // Remove touch events
+  window.removeEventListener('touchstart', onTouchStart);
+  window.removeEventListener('touchmove', onTouchMove);
+  window.removeEventListener('touchend', onTouchEnd);
+
   renderer.dispose();
 });
+
 
 function initScene() {
   scene = new THREE.Scene();
@@ -115,24 +146,92 @@ camera = new THREE.OrthographicCamera(
 }
 
 
+function onMouseDown(event) {
+  isDragging = true;
+  previousMouseX = event.clientX;
+  velocityX = 0; // Reset velocity when user starts dragging
+}
+
+// Handle dragging
+function onMouseDrag(event) {
+  if (!isDragging) return;
+
+  const deltaX = event.clientX - previousMouseX;
+  previousMouseX = event.clientX;
+
+  const moveFactor = 0.01; // Adjust to fine-tune drag sensitivity
+
+  tubes.children.forEach(tube => tube.position.x += deltaX * moveFactor);
+  labels.children.forEach(label => label.position.x += deltaX * moveFactor);
+
+  velocityX = deltaX * moveFactor; // Store velocity for inertia
+}
+
+// Stop dragging
+function onMouseUp() {
+  isDragging = false;
+}
+
+// TOUCH EVENTS
+function onTouchStart(event) {
+  isDragging = true;
+  touchStartX = event.touches[0].clientX;
+  velocityX = 0; // Reset inertia
+}
+
+function onTouchMove(event) {
+  if (!isDragging) return;
+
+  event.preventDefault(); // Prevent scrolling while dragging
+
+  touchDeltaX = event.touches[0].clientX - touchStartX;
+  touchStartX = event.touches[0].clientX;
+
+  const moveFactor = 0.02; // Adjust touch sensitivity
+
+  tubes.children.forEach(tube => tube.position.x += touchDeltaX * moveFactor);
+  labels.children.forEach(label => label.position.x += touchDeltaX * moveFactor);
+
+  velocityX = touchDeltaX * moveFactor; // Store velocity for inertia
+}
+
+function onTouchEnd() {
+  isDragging = false;
+}
+
+
 var clock = new THREE.Clock();
 var speed = 0.7; //units a second
 var delta = 0;
+
 function animate() {
   animationFrameId = requestAnimationFrame(animate);
 
   delta = clock.getDelta();
-
   // Move everything left
   tubes.children.forEach(tube => tube.position.x -= speed * delta);
   labels.children.forEach(label => label.position.x -= speed * delta);
 
+
+
+  if (!isDragging) {
+    // Apply inertia when not actively dragging
+    tubes.children.forEach(tube => tube.position.x += velocityX);
+    labels.children.forEach(label => label.position.x += velocityX);
+
+    velocityX *= friction; // Apply friction to slow down
+    if (Math.abs(velocityX) < 0.001) velocityX = 0; // Stop when velocity is very low
+  }
+
   // Reset position when offscreen
   tubes.children.forEach(tube => {
-    if (tube.position.x < -totalWidth/2) tube.position.x += totalWidth;
+    if (tube.position.x < -totalWidth / 2) tube.position.x += totalWidth;
+    if (tube.position.x > totalWidth / 2) tube.position.x -= totalWidth;
   });
+
   labels.children.forEach(label => {
-    if (label.position.x < -totalWidth/2) label.position.x += totalWidth;
+    if (label.position.x < -totalWidth / 2) label.position.x += totalWidth;
+    if (label.position.x > totalWidth / 2) label.position.x -= totalWidth;
   });
 
   renderer.render(scene, camera);
