@@ -37,6 +37,7 @@ let velocityX = 0;
 let friction = 0.95; // Controls how fast inertia slows down (0.95 is a good balance)
 let touchStartX = 0;
 let touchDeltaX = 0;
+let canDrag = false; // Prevent dragging unless touching the graph
 
 onMounted(() => {
   initScene();
@@ -147,10 +148,12 @@ camera = new THREE.OrthographicCamera(
 
 
 function onMouseDown(event) {
+  if (!isOverGraph(event)) return;
   isDragging = true;
   previousMouseX = event.clientX;
   velocityX = 0; // Reset velocity when user starts dragging
 }
+
 
 // Handle dragging
 function onMouseDrag(event) {
@@ -174,6 +177,7 @@ function onMouseUp() {
 
 // TOUCH EVENTS
 function onTouchStart(event) {
+      if (!isOverGraph(event)) return;
   isDragging = true;
   touchStartX = event.touches[0].clientX;
   velocityX = 0; // Reset inertia
@@ -198,6 +202,29 @@ function onTouchMove(event) {
 function onTouchEnd() {
   isDragging = false;
 }
+
+
+function isOverGraph(event) {
+  if (!canvasContainer.value) return false;
+
+  const rect = canvasContainer.value.getBoundingClientRect();
+  let x, y;
+
+  if (event.touches) {
+    // Touch events
+    x = event.touches[0].clientX;
+    y = event.touches[0].clientY;
+  } else {
+    // Mouse events
+    x = event.clientX;
+    y = event.clientY;
+  }
+
+  return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
+
+
 
 
 var clock = new THREE.Clock();
