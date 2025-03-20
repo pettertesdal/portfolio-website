@@ -93,12 +93,11 @@ function formatDate(date: string): string {
   font-size: 0.7rem;
   font-weight: bold;
   text-align: center;
-  width: 7rem; /* Match image width */
+  width: 100%;/* Match image width */
 }
 
 .work-post img {
   width: 100%; /* Ensure image takes up full width */
-  max-width: 300px; /* Optional: Set a max width */
 }
 
 .content a {
