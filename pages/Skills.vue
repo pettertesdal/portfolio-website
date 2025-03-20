@@ -292,7 +292,7 @@ function isOverGraph(event) {
         y = event.clientY;
     }
 
-    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+    return x >= rect.left && x <= rect.right && y >= rect.top+200 && y <= rect.bottom-200;
 }
 
 
