@@ -87,6 +87,10 @@ function formatDate(date: string): string {
   transition: background 0.2s ease-in-out;
   padding: 15px;
 }
+.blog-post:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
 .blog-link{
   text-decoration: none;
   color: #333;

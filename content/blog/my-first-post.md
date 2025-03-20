@@ -22,7 +22,9 @@ Setting this up wasn’t exactly smooth sailing. There were plenty of issues to 
 
 But after pushing through, I finally have a system that works!  
 
+::borderimage
 ![Placeholder for a screenshot of the working blog page](/articles/blog-screenshot.png)  
+::
 
 ---
 

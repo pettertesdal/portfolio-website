@@ -1,27 +1,10 @@
 <script setup lang="ts">
+
 const { data: posts } = await useAsyncData('workposts', async () => {
   const allPosts = await queryCollection('workposts').all();
 
   return allPosts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 });
-
-const getReadingTime = (content) => {
-  // Remove YAML front matter
-  const cleanContent = content.replace(/^---[\s\S]*?---/, '');
-
-  // Remove HTML comments
-  const textContent = cleanContent.replace(/<!--.*?-->/g, '');
-
-  // Split text into words
-  const words = textContent.trim().split(/\s+/).length;
-
-  // Calculate reading time (200 words per minute)
-  const wordsPerMinute = 200;
-  const minutes = Math.ceil(words / wordsPerMinute);
-
-  return minutes;
-};
-
 
 function formatDate(date: string): string {
   return new Date(date).toLocaleDateString('en-US', {
@@ -32,59 +15,112 @@ function formatDate(date: string): string {
 }
 
 </script>
+
 <template>
-  <h1>This is work</h1>
-  <p>This will be another content site that uses clickable links (Maybe floating aroung animation) that links to an html site about that work and what it entailed</p>
+  <div id="precontent">
+    <h1>This is work</h1>
+    <p>This will be another content site that uses clickable links (Maybe floating around animation) that links to an HTML site about that work and what it entailed</p>
+  </div>
   <div class="work-container">
     <div v-if="posts && posts.length > 0" class="content">
-      <div v-for="post in posts" :key="post.id" >
+      <TimeLine />
+            <div class="wrapper">
+      <div v-for="post in posts" :key="post.id" id="post-container">
         <NuxtLink :to="post.path" class="work-link">
-          <div class="project">
-                        <span class="post-date">
-              {{ formatDate(post.date)}}
-            </span>
-
-            <ContentRenderer v-if="post" :value="post" :excerpt=true />
+          <div class="work-post">
+            <div class="post-date">
+              {{ formatDate(post.date) }}
+            </div>
+            <img :src="`/work/${post.title}.svg`" alt="Work image">
           </div>
         </NuxtLink>
       </div>
+            </div>
     </div>
     <p v-else class="no-posts">No posts available at the moment.</p>
-    </div>
+  </div>
 </template>
-<style>
-.content a  {
-    text-decoration: none;
-    color: black;
+
+<style scoped>
+.work-container {
+  position: relative;
+  width: 100%;
 }
-.project {
-    height: 15rem;
-    width: 15rem;
-    display: flex;
+
+.wrapper{
     flex-direction: column;
-    justify-content: center;
-    border: 0.5rem;
-
+  text-decoration: none;
 }
 
-.project img {
-    align-self: center;
-    width: 100%;
-    margin-bottom: 0.8rem;
-}
-.project h1 {
-    font-size: 1.4rem;
-    margin-top: 0;
-    align-self: center;
-    text-align: center;
+.main-content {
+  margin-top: 0;
 }
 
-.project a,.project p {
-    color: inherit;
-    text-decoration: none;
-    margin: 0;
-    align-self: center;
-    text-align: center;
+#precontent {
+      margin-top: -50px; /* Move it upwards */
+    padding-top: 50px;
+  z-index: 4;
+  background: white;
+  position: relative;
 }
 
+#post-container {
+  position: relative; /* Ensure the line is positioned relative to this container */
+  margin-bottom: 2rem; /* Add spacing between posts */
+}
+
+.work-post {
+  display: flex;
+  flex-direction: row; /* Stack elements vertically */
+  align-items: center;
+  gap: 15vh; /* Small gap between date and image */
+  width: 100%; /* Ensure consistent width */
+  height: 15vh;
+  border-radius: 8px;
+    background-color: var(--background);
+  border-style: solid;
+  border-width: 1.5px;
+    z-index: 9;
+    padding: 10px;
+}
+.work-post:hover {
+  transform: scale(1.05);
+  text-decoration: none;
+}
+
+
+.post-date {
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-align: center;
+  width: 7rem; /* Match image width */
+}
+
+.work-post img {
+  width: 7rem; /* Ensure image takes up full width */
+  max-width: 300px; /* Optional: Set a max width */
+}
+
+.content a {
+    display:flex;
+  color: black;
+}
+
+
+
+.work-post h1 {
+  font-size: 1.4rem;
+  margin-top: 0;
+  align-self: center;
+  text-align: center;
+}
+
+.work-post a,
+.work-post p {
+  color: inherit;
+  text-decoration: none;
+  margin: 0;
+  align-self: center;
+  text-align: center;
+}
 </style>

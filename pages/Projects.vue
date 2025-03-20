@@ -57,7 +57,6 @@ function formatDate(date: string): string {
   border-radius: 8px;
   padding: 1rem;
   background: white;
-  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease-in-out;
 }
 

@@ -1,10 +1,10 @@
 ---
-title: "Technipfmc"
-date: "2024-02-01"
+title: "StudentersamfunnetiBergen"
+date: "2023-03-01"
 author: "Petter Tesdal"
 ---
    
-![Techniplogo](/work/Technipfmc.svg)  
+![Techniplogo](/work/StudentersamfunnetiBergen.svg)  
 
 <!--more-->
 # My Experience at TechnipFMC

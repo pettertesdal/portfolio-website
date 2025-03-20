@@ -301,7 +301,7 @@ function isOverGraph(event) {
 
 var clock = new THREE.Clock();
 var speed = 0.7; //units a second
-var delta = 0;
+var delta = 0
 
 function animate() {
     animationFrameId = requestAnimationFrame(animate);
@@ -459,8 +459,8 @@ function createTechnologyTubeCurve(usage) {
 function createLabelTexture(text, usage) {
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 256;
-    canvas.height = 128;
+    canvas.width = 512;  // Increased resolution
+    canvas.height = 256;
 
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -472,7 +472,7 @@ function createLabelTexture(text, usage) {
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = 'black';
-    ctx.font = '30px Arial';
+    ctx.font = '80px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
     ctx.fillText(`${text}`, canvas.width / 2, canvas.height / 2);

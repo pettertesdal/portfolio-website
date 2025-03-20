@@ -1,15 +1,16 @@
 <template>
-    <div class="freeimage">
+    <div class="borderimage">
         <slot />
     </div>
 </template>
 <style>
-.freeimage img {
-  width: 100%;
+.borderimage img {
+  width: 75%;
   height: auto;
   margin: 20px auto; /* Horizontally center the image */
   display: block; /* Ensure it’s treated as a block element for centering */
   border-radius: 8px;
-  border-width: 0px;
+  border-style: solid;
+  border-width: 1.5px;
 }
 </style>

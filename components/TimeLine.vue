@@ -1,43 +1,7 @@
-<template>
-  <section class="about">
-    <!-- Three.js Left Line -->
-    <div ref="leftCanvas" class="canvas-container left"></div>
-
-    <!-- Centered Bio Section -->
-    <div class="text-content">
-      <h2>About Me</h2>
-      <p>
-        I'm <strong>Petter Tesdal</strong>, a computer engineer passionate about solving
-        complex problems with clean and efficient code. I love building scalable
-        applications, optimizing performance, and experimenting with creative technologies.
-      </p>
-      <p>
-        Whether it's backend architecture, frontend UI/UX, or system design, I strive to
-        write elegant solutions that blend functionality with aesthetics.
-      </p>
-
-      <!-- Skills -->
-      <div class="skills">
-        <h3>Skills</h3>
-        <ul>
-          <li>⚡ Java, Spring Boot</li>
-          <li>🌍 Vue.js, Nuxt, Tailwind</li>
-          <li>🚀 NixOS, DevOps</li>
-          <li>🖥️ Three.js, WebGL</li>
-        </ul>
-      </div>
-    </div>
-
-    <!-- Three.js Right Line -->
-    <div ref="rightCanvas" class="canvas-container right"></div>
-  </section>
-</template>
-
 <script setup>
 import * as THREE from "three";
 
 const leftCanvas = ref(null);
-const rightCanvas = ref(null);
 
 const createWavyLine = (canvasRef, isLeft) => {
   if (!canvasRef.value) return;
@@ -61,7 +25,7 @@ const createWavyLine = (canvasRef, isLeft) => {
 
   let curve = new THREE.CatmullRomCurve3(points);
   let geometry = new THREE.TubeGeometry(curve, 200, 0.02, 8, false);
-  let material = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true });
+  let material = new THREE.MeshBasicMaterial({ color: 0x000000, wireframe: true });
   let lineMesh = new THREE.Mesh(geometry, material);
   scene.add(lineMesh);
 
@@ -99,9 +63,11 @@ const createWavyLine = (canvasRef, isLeft) => {
   camera.aspect = width / height;  // Set initial aspect ratio
   camera.updateProjectionMatrix(); // Update camera aspect
 
-        var clock = new THREE.Clock();
-    var speed = 1.5; //units a second
+    var clock = new THREE.Clock();
+    var speed = 0.9; //units a second
     var delta = 0
+
+
 
   function animate() {
     requestAnimationFrame(animate);
@@ -109,11 +75,9 @@ const createWavyLine = (canvasRef, isLeft) => {
     delta = clock.getDelta();
     // If scrolling, increase wave amplitude
     if (isScrolling) {
-      waveAmplitude = Math.min(waveAmplitude + 0.1, 0.2); // Limit max amplitude to avoid overflow
       waveOffsetY += speed*delta + scrollSpeed; // Scroll moves the wave pattern downward
       isScrolling = false; // Reset scroll state
     } else {
-      waveAmplitude = Math.max(waveAmplitude - 0.005, 0.1); // Slowly fade back
       waveOffsetY += speed*delta; // Scroll moves the wave pattern downward
     }
 
@@ -136,71 +100,24 @@ const createWavyLine = (canvasRef, isLeft) => {
 
 onMounted(() => {
   createWavyLine(leftCanvas, true);
-  createWavyLine(rightCanvas, false);
 });
 </script>
+<template>
+    <div ref="leftCanvas" class="canvas-container left"></div>
+</template>
 
 <style scoped>
-.about {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 10vh;
-  background: black;
-  color: white;
-  padding: 50px 20px;
+.work-container {
   position: relative;
+  width: 100%;
+  height: 100vh;
 }
-
-.text-content {
-  max-width: 600px;
-  text-align: center;
-}
-
-h2 {
-  font-size: 2.5rem;
-  margin-bottom: 10px;
-}
-
-p {
-  font-size: 1.2rem;
-  line-height: 1.5;
-}
-
-.skills {
-  margin-top: 20px;
-}
-
-h3 {
-  font-size: 1.5rem;
-  margin-bottom: 10px;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  font-size: 1.1rem;
-  margin-bottom: 5px;
-}
-
-/* Three.js Lines */
 .canvas-container {
   position: fixed;
-  width: 100px;
-  height: 100vh;
+  width: 5vw;
+  height: 10vh;
   top: 0;
-  z-index: 0;
+  z-index: 1;
 }
 
-.left {
-  left: 0;
-}
-
-.right {
-  right: 0;
-}
 </style>
-

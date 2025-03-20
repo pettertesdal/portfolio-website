@@ -20,6 +20,7 @@ const socialLinks = [
     width: 100%;
     min-height: 4.5rem;
     font-size: 15px;
+    z-index: 700;
 }
 #wrapper {
     opacity: 0.5;
