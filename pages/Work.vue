@@ -97,7 +97,7 @@ function formatDate(date: string): string {
 }
 
 .work-post img {
-  width: 7rem; /* Ensure image takes up full width */
+  width: 100%; /* Ensure image takes up full width */
   max-width: 300px; /* Optional: Set a max width */
 }
 
