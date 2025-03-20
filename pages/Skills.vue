@@ -79,7 +79,7 @@ onUnmounted(() => {
 
 function initScene() {
     scene = new THREE.Scene();
-    const aspect = 2;
+    const aspect = window.innerWidth/window.innerHeight;
     const viewSize = 6.5; // Adjust this to control the scene size
     camera = new THREE.OrthographicCamera(
         -viewSize * aspect,  // left
@@ -94,7 +94,7 @@ function initScene() {
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 
-    renderer.setSize(window.innerWidth, window.innerWidth/2);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     if (canvasContainer.value) {
         canvasContainer.value.appendChild(renderer.domElement);
     }
@@ -105,8 +105,45 @@ function initScene() {
     labels = new THREE.Group();
     languages.forEach((lang, index) => {
         const curve = createTubeCurve(lang.usage);
-        const tubeGeometry = new THREE.TubeGeometry(curve, 20, 0.05, 8, false);
-        const tubeMaterial = new THREE.MeshBasicMaterial({ color: getColor(lang.usage), wireframe: false });
+        const tubeGeometry = new THREE.TubeGeometry(curve, 50, 0.05, 8, false);
+
+
+        const tubeMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                color1: { value: new THREE.Color(getColor(lang.usage)) },
+                color2: { value: new THREE.Color(getNextColor(index)) },
+                color3: { value: new THREE.Color(getLastColor(index)) }
+            },
+            vertexShader: `
+                varying float vProgress;
+                void main() {
+                    vProgress = uv.x; // UV X controls transition
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 color1;
+                uniform vec3 color2;
+                uniform vec3 color3;
+                varying float vProgress; // New variable for x-axis progress
+
+                void main() {
+                    float mixFactor;
+                    vec3 mixedColor;
+
+                    if (vProgress < 0.5) {
+                        mixFactor = smoothstep(0.0, 1.0, vProgress+0.5);
+                        mixedColor = mix(color3, color1, mixFactor); // Blend from last to current
+                    } else {
+                        mixFactor = smoothstep(0.5, 1.5, vProgress);
+                        mixedColor = mix(color1, color2, mixFactor); // Blend from current to next
+                    }
+
+                    gl_FragColor = vec4(mixedColor, 1.0);
+                }
+            `,
+        });
+
 
         const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
         tube.position.x = index * cardSpacing - totalWidth/2;
@@ -125,7 +162,42 @@ function initScene() {
     technologies.forEach((lang, index) => {
         const curve = createTechnologyTubeCurve(lang.usage);
         const tubeGeometry = new THREE.TubeGeometry(curve, 20, 0.05, 8, false);
-        const tubeMaterial = new THREE.MeshBasicMaterial({ color: getColor(lang.usage), wireframe: false });
+        const tubeMaterial = new THREE.ShaderMaterial({
+            uniforms: {
+                color1: { value: new THREE.Color(getColor(lang.usage)) },
+                color2: { value: new THREE.Color(getNextColorTechnology(index)) },
+                color3: { value: new THREE.Color(getLastColorTechnology(index)) }
+            },
+            vertexShader: `
+                varying float vProgress;
+                void main() {
+                    vProgress = uv.x; // UV X controls transition
+                    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+                }
+            `,
+            fragmentShader: `
+                uniform vec3 color1;
+                uniform vec3 color2;
+                uniform vec3 color3;
+                varying float vProgress; // New variable for x-axis progress
+
+                void main() {
+                    float mixFactor;
+                    vec3 mixedColor;
+
+                    if (vProgress < 0.5) {
+                        mixFactor = smoothstep(0.0, 1.0, vProgress+0.5);
+                        mixedColor = mix(color3, color1, mixFactor); // Blend from last to current
+                    } else {
+                        mixFactor = smoothstep(0.5, 1.5, vProgress);
+                        mixedColor = mix(color1, color2, mixFactor); // Blend from current to next
+                    }
+
+                    gl_FragColor = vec4(mixedColor, 1.0);
+                }
+            `,
+        });
+
 
         const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
         tube.position.x = index * cardSpacingTechnology - totalWidth/2;
@@ -252,7 +324,7 @@ function animate() {
 
     // Reset position when offscreen
     tubes.children.forEach(tube => {
-        if (tube.position.x < -totalWidth / 2) tube.position.x += totalWidth;
+        if (tube.position.x+2 < -totalWidth / 2) tube.position.x += totalWidth;
         if (tube.position.x > totalWidth / 2) tube.position.x -= totalWidth;
     });
 
@@ -266,8 +338,8 @@ function animate() {
 
 
 function handleResize() {
-    const aspect = 2;
-    const viewSize = 6; // Keep consistent size across window changes
+    const aspect = window.innerWidth/window.innerHeight;
+    const viewSize = 6.5; // Keep consistent size across window changes
 
     camera.left = -viewSize * aspect;
     camera.right = viewSize * aspect;
@@ -275,7 +347,7 @@ function handleResize() {
     camera.bottom = -viewSize;
     camera.updateProjectionMatrix();
 
-    renderer.setSize(window.innerWidth, window.innerWidth/2);
+    renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 
@@ -313,6 +385,36 @@ function onClick(event) {
         navigateTo('skills/'+hoveredLabel.userData.url);
     }
 }
+
+
+function getNextColor(index) {
+    if (index + 1 < languages.length) {
+        return getColor(languages[index + 1].usage);
+    }
+    return getColor(languages[index].usage);
+}
+
+function getLastColor(index) {
+    if (index > 0) {
+        return getColor(languages[index - 1].usage);
+    }
+    return getColor(languages[languages.length-1].usage); // Fallback for first item
+}
+
+function getNextColorTechnology(index) {
+    if (index + 1 < technologies.length) {
+        return getColor(technologies[index + 1].usage);
+    }
+    return getColor(technologies[index].usage);
+}
+
+function getLastColorTechnology(index) {
+    if (index > 0) {
+        return getColor(technologies[index - 1].usage);
+    }
+    return getColor(technologies[technologies.length-1].usage); // Fallback for first item
+}
+
 
 function createTubeCurve(usage) {
     const points = [];
@@ -363,8 +465,10 @@ function createLabelTexture(text, usage) {
     ctx.fillStyle = 'white';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    ctx.strokeStyle = 'black';
-    ctx.lineWidth = 8;
+    // Set the border color dynamically based on the usage
+    const borderColor = getColor(usage);
+    ctx.strokeStyle = borderColor; // Use the generated color
+    ctx.lineWidth = 15;
     ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
     ctx.fillStyle = 'black';
@@ -376,10 +480,12 @@ function createLabelTexture(text, usage) {
     return new THREE.CanvasTexture(canvas);
 }
 
+
 function getColor(usage) {
-    const intensity = Math.min(255, Math.round(usage * 3.4));
-    return new THREE.Color(`rgb(${intensity}, ${255 - intensity}, 150)`);
+    const hue = (usage * 2.5) % 360; // Map usage to a pastel hue
+    return `hsl(${hue}, 50%, 75%)`;  // Pastel-like color
 }
+
 
 </script>
 
