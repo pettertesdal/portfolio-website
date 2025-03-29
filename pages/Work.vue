@@ -73,7 +73,7 @@ function formatDate(date: string): string {
   display: flex;
   flex-direction: row; /* Stack elements vertically */
   align-items: center;
-  gap: 15vh; /* Small gap between date and image */
+  gap: 1vh; /* Small gap between date and image */
   width: 100%; /* Ensure consistent width */
   height: 15vh;
   border-radius: 8px;
