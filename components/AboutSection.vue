@@ -38,6 +38,8 @@ import * as THREE from "three";
 
 const leftCanvas = ref(null);
 const rightCanvas = ref(null);
+let animationFrameId1 = null;
+let animationFrameId2 = null;
 
 const createWavyLine = (canvasRef, isLeft) => {
   if (!canvasRef.value) return;
@@ -104,7 +106,11 @@ const createWavyLine = (canvasRef, isLeft) => {
     var delta = 0
 
   function animate() {
-    requestAnimationFrame(animate);
+    if (isLeft) {
+      animationFrameId1 = requestAnimationFrame(animate);
+    } else {
+      animationFrameId2 = requestAnimationFrame(animate)
+    }
 
     delta = clock.getDelta();
     // If scrolling, increase wave amplitude
@@ -131,12 +137,26 @@ const createWavyLine = (canvasRef, isLeft) => {
   }
 
   animate();
+  const cleanup = () => {
+      cancelAnimationFrame(animationFrameId1);
+      cancelAnimationFrame(animationFrameId2);
+    renderer.dispose();
+    geometry.dispose();
+    material.dispose();
+    scene.remove(lineMesh);
+  };
+
+  return cleanup;
+
 };
 
+let cleanup;
 
 onMounted(() => {
-  createWavyLine(leftCanvas, true);
-  createWavyLine(rightCanvas, false);
+  cleanup = createWavyLine(leftCanvas, true);
+});
+onUnmounted(() => {
+  if (cleanup) cleanup();
 });
 </script>
 

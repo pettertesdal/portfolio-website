@@ -2,6 +2,8 @@
 import * as THREE from "three";
 
 const leftCanvas = ref(null);
+let animationFrameId = null;
+let rendererDomElement = null;
 
 const createWavyLine = (canvasRef, isLeft) => {
   if (!canvasRef.value) return;
@@ -14,6 +16,8 @@ const createWavyLine = (canvasRef, isLeft) => {
   const renderer = new THREE.WebGLRenderer({ alpha: true });
   renderer.setPixelRatio(window.devicePixelRatio); // For high DPI screens
   canvasRef.value.appendChild(renderer.domElement);
+
+      rendererDomElement = renderer.domElement;
 
   // Create Points for the Line
   const numPoints = 100;
@@ -70,7 +74,7 @@ const createWavyLine = (canvasRef, isLeft) => {
 
 
   function animate() {
-    requestAnimationFrame(animate);
+    animationFrameId = requestAnimationFrame(animate);
 
     delta = clock.getDelta();
     // If scrolling, increase wave amplitude
@@ -95,12 +99,27 @@ const createWavyLine = (canvasRef, isLeft) => {
   }
 
   animate();
+
+  const cleanup = () => {
+    cancelAnimationFrame(animationFrameId);
+    renderer.dispose();
+    geometry.dispose();
+    material.dispose();
+    scene.remove(lineMesh);
+  };
+
+  return cleanup;
 };
 
+let cleanup;
 
 onMounted(() => {
-  createWavyLine(leftCanvas, true);
+  cleanup = createWavyLine(leftCanvas, true);
 });
+onUnmounted(() => {
+  if (cleanup) cleanup();
+});
+
 </script>
 <template>
     <div ref="leftCanvas" class="canvas-container left"></div>
