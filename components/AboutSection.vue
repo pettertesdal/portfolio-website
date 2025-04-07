@@ -7,25 +7,29 @@
     <div class="text-content">
       <h2>About Me</h2>
       <p>
-        I'm <strong>Petter Tesdal</strong>, a computer engineer passionate about solving
-        complex problems with clean and efficient code. I love building scalable
-        applications, optimizing performance, and experimenting with creative technologies.
+        I'm <strong>Petter Tesdal</strong>, a computer science student passionate about
+        software development and computers. I am quick on picking up new concepts and good at thinking criticaly.
+        I worked a lot during my studies, both on volunteer work in a student society, a part-time job, and the studies themselves.
+        I prefer working on backend logic and servers, but have extensive experience with vue and Nuxt as well.
       </p>
       <p>
-        Whether it's backend architecture, frontend UI/UX, or system design, I strive to
-        write elegant solutions that blend functionality with aesthetics.
+        I was originally studying to be a constructunal engineer
+        but found out during that study that coding was a passion I wanted to pursue above all else.
+        I found myself coding in my freetime instead of studying construction and ended up deciding to pursue it.
       </p>
-
-      <!-- Skills -->
-      <div class="skills">
-        <h3>Skills</h3>
-        <ul>
-          <li>⚡ Java, Spring Boot</li>
-          <li>🌍 Vue.js, Nuxt, Tailwind</li>
-          <li>🚀 NixOS, DevOps</li>
-          <li>🖥️ Three.js, WebGL</li>
-        </ul>
-      </div>
+      <p>
+        During my computer engineer studies at HVL in Bergen I found out that I do not only have a passion for it,
+        but also a talent for picking up the concepts fast. After a course on operating systems, I also adopted linux as my main machine,
+        and have been using it since. During the studies a lot of different subjects were explored: a lot of web development, backend, computer systems,
+        distributed systems, agile development, functional development, and more.
+      </p>
+      <p>
+        My bachelors was a Nuxt application written for TechnipFMC from start to finish. Which can be found here:
+            <NuxtLink to="projects/gates" class="nuxtlink-about">gates</NuxtLink>
+      </p>
+      <p>
+        After finishing my bachelors I started on my masters at a collaborative master program between HVL and UIB.
+      </p>
     </div>
 
     <!-- Three.js Right Line -->
@@ -154,6 +158,7 @@ let cleanup;
 
 onMounted(() => {
   cleanup = createWavyLine(leftCanvas, true);
+  cleanup = createWavyLine(rightCanvas, false);
 });
 onUnmounted(() => {
   if (cleanup) cleanup();
@@ -170,6 +175,10 @@ onUnmounted(() => {
   color: white;
   padding: 50px 20px;
   position: relative;
+}
+
+.nuxtlink-about {
+  color:white;
 }
 
 .text-content {
