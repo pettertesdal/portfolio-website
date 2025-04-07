@@ -10,7 +10,7 @@
                 <span>Petter</span><Glitched id="glitched" string="T" /><span class="opening_third_line">esdal</span>
             </div>
         </div>
-        <p class="opening_description">And this is my portfolio-website, where I can showcase my projects, nerdout and have fun</p>
+        <p class="opening_description">And welcome to my portfolio-website, here you can see projects that I have worked on and general information about me and skills I possess.</p>
 </template>
 <style scoped>
 .opening-container {
