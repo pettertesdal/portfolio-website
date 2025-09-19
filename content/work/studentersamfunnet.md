@@ -4,20 +4,24 @@ date: "2023-03-01"
 author: "Petter Tesdal"
 ---
    
-![Techniplogo](/work/StudentersamfunnetiBergen.svg)  
+![Samfunnetlogo](/work/StudentersamfunnetiBergen.svg)  
 
-<!--more-->
-# My Experience at TechnipFMC
+Student Society of Bergen
 
-Working at TechnipFMC was a great learning experience and my first real opportunity to engage in professional development work.
+In my free time, I have volunteered in multiple roles within student organizations here in Bergen. Through this, I have become more deeply involved in politics, learned how to work in a large organization, and discovered the joy of economics. During my time, I have led debates on topics ranging from nuclear power, alcohol, AI, and tax law. I have been responsible for a budget of over 2 million kroner and served as the leader of the control committee, overseeing the organization’s statutes and ensuring that management follows them.
 
-I had the chance to be involved from the ground up, contributing to the development of a large and complex project that, despite its challenges, we successfully completed.
+Holding Debates
 
-The project was a **Digital Project Management Tool** for overseeing the overhaul of valve trees (XT GATES). Initially, I worked on this as part of my **Bachelor's thesis** with a team of three students from **Western Norway University of Applied Sciences**. After completing my degree, I continued working part-time at TechnipFMC to further develop and refine the system in collaboration with the company's users.
+During my time in the debate committee, I have had the pleasure of overseeing, planning, and leading debates. This role has given me many opportunities to meet high-profile people, while also teaching me how to adapt to different personalities and prepare accordingly.
 
-The application was built using **Nuxt.js** for the frontend and a **Node.js** backend. We implemented **Pinia** for state management and used **MSSQL** for the database, ensuring a smooth and efficient workflow for the XT Service Team. 
+Leader of Economy
 
-I thoroughly enjoyed my time at TechnipFMC. The experience not only strengthened my technical skills but also gave me invaluable insight into real-world software development, teamwork, and problem-solving. Seeing the XT GATES system being used daily as a core tool for managing projects was a rewarding outcome of our efforts.
+After a year in the organization, I decided I wanted to take on more responsibility. I applied to become the leader of economy, a position that gave me a seat in management for a year. In this role, I was involved in voting, preparing budgets, submitting applications for financial support, writing reports, and leading a team. The experience has been both invaluable and highly enjoyable.
 
-I am grateful for the opportunity and look forward to applying the knowledge and experience I gained in future projects.
+Leader of the Control Committee
 
+In my final year, I served as the leader of the control committee, where I was responsible for overseeing management and ensuring that the organization followed its rules. Through this, I learned how to stand my ground and handle being unpopular, while also managing significant pushback. Saying “no” because procedures must be followed can be surprisingly difficult, especially when you want to be flexible. But in the end, if we don’t follow the rules we set for ourselves, the organization risks falling apart.
+
+Merger of Organizations
+
+This past year, I have also been involved in planning the merger of the two largest student organizations in Bergen: our organization and Det Akademiske Kvarter. Together, we aim to create something similar to what exists in Trondheim. The process has involved significant work—organizing the merger, creating a unified budget, and merging the charts of accounts into one. It has been both a challenging and rewarding experience.
