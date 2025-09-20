@@ -19,7 +19,7 @@ function formatDate(date: string): string {
 <template>
   <div id="precontent">
     <h1>Work experience</h1>
-    <p>This will be another content site that uses clickable links.</p>
+    <p>Here I've put I've recorded my relevant work experience in chronological order. Feel free to click the links to gain more information</p>
   </div>
   <div class="work-container">
     <div v-if="posts && posts.length > 0" class="content">
