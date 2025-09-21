@@ -76,25 +76,8 @@ Running without input starts a REPL. Running with a file executes it, and adding
 
 ---
 
-## Reflections
-
-Building Enkel taught me a lot:
-
-* Writing a grammar in ANTLR forced me to think deeply about language structure.
-* Implementing an interpreter in Java gave me more appreciation for scoping, type-checking, and execution flows.
-* Attempting LLVM integration showed me just how complex compiler toolchains can be, especially across languages.
-
-While not everything worked out (LLVM in particular), I’m proud of how far the project has come. I now have a working interpreter, a REPL, and a language that feels close to home—literally, since it’s based on Norwegian.
-
----
-
 ## Conclusion
 
 Enkel may not be a production-ready language, but it’s been a fantastic experiment. It blends natural language with programming constructs, and building it gave me hands-on experience with **parsing, interpreters, scoping, and compiler design**.
 
-I plan to keep exploring LLVM integration in the future, but for now, I’m happy to say: **Enkel works!**
-
----
-
-Would you like me to make this more **casual and storytelling-like** (like a dev blogpost with anecdotes), or keep it **structured and technical** like above?
-
+I plan to keep exploring LLVM integration in the future.
