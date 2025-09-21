@@ -21,4 +21,12 @@ I thoroughly enjoyed my time at TechnipFMC. The experience not only strengthened
 
 I am grateful for the opportunity and look forward to applying the knowledge and experience I gained in future projects.
 
-[Attest](https://tesdal.dev/files/technipfmc-attest.pdf)
+---
+
+> ## 📄 Attestation  
+> As recognition for my work, I received a formal attestation from **Wilhelm Monsen** at TechnipFMC.  
+>  
+> 👉 [View Attest (PDF)](https://tesdal.dev/files/technipfmc-attest.pdf)
+
+---
+
