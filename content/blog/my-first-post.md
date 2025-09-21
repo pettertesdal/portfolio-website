@@ -15,12 +15,7 @@ After a lot of trial and error, debugging weird errors, and tweaking configurati
 ---
 
 ## The Journey Here  
-Setting this up wasn’t exactly smooth sailing. There were plenty of issues to fix, including:  
-- **Data Fetching Problems**: My blog index worked fine, but the individual post pages had trouble loading content.  
-- **Strange Errors**: The infamous `"Cannot stringify a function"` error showed up and took some time to debug.  
-- **Styling & Layout Adjustments**: A simple list of posts wasn’t enough—I wanted something clean and readable.  
-
-But after pushing through, I finally have a system that works!  
+Setting this up wasn’t exactly smooth sailing. But after pushing through, I finally have a system that works!  
 
 ::borderimage
 ![Placeholder for a screenshot of the working blog page](/articles/blog-screenshot.png)  
@@ -39,21 +34,4 @@ The best part? Everything runs locally on my PC, giving me full control over my 
 
 ---
 
-## What’s Next?  
-Now that the system is live, I can start writing about:  
-- **Tech experiments & projects** I’m working on  
-- **NixOS configurations** and setups I find useful  
-- **Game development progress** (especially my roguelike project!)  
-- **Random discoveries & thoughts** I want to document  
-
-I might even add **comments, reactions, or tags** to make the blog more interactive.  
-
----
-
-## Final Thoughts  
-If you’re reading this, congrats—you’re witnessing the first-ever post on my blog system! 🚀  
-
-> _This is just the beginning. Let’s see where this journey takes me._  
-
-Stay tuned for more!  
-
+So let this mark the first post, and hopefully, I will make time to post more!
