@@ -4,8 +4,9 @@
 
 # Building My Own Programming Language: Enkel
 
-Over the past semester, I’ve been working on something I’ve always wanted to try: designing and building my own programming language, **Enkel**. Inspired by spoken Norwegian, Enkel is meant to feel natural and intuitive, while still being a fully functioning language with its own interpreter.
+Over the past semester, I’ve been working on something I’ve always wanted to try: designing and building my own programming language, **Enkel**.
 <!--more-->
+Inspired by spoken Norwegian, Enkel is meant to feel natural and intuitive, while still being a fully functioning language with its own interpreter.
 
 ->[Github Link](https://github.com/pettertesdal/EnkelLanguage)
 ---
