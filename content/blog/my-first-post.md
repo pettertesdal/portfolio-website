@@ -1,5 +1,5 @@
 ---
-title: "🎉The First Post of This New System is finally live!"
+title: "The First Post of This New System is finally live!"
 date: "2024-03-11"
 author: "Petter Tesdal"
 ---
@@ -24,14 +24,6 @@ Setting this up wasn’t exactly smooth sailing. But after pushing through, I fi
 ---
 
 ## How It Works  
-Here’s a quick rundown of how this blog is structured:  
-1. **Blog Index Page**: Shows all blog posts in a single-column layout, displaying the title, date, and reading time.  
-2. **Individual Blog Pages**: Clicking on a post takes you to a dedicated page with the full article.  
-3. **Content Management**: Posts are stored in a collection and dynamically loaded.  
-
-The best part? Everything runs locally on my PC, giving me full control over my content.  
-
-
----
+With this system I will be able to quickly make a markdown file in a folder, this automatically gets uploaded on the site and sorted by date.
 
 So let this mark the first post, and hopefully, I will make time to post more!

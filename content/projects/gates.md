@@ -13,10 +13,10 @@ The solution was a project management platform built in **Nuxt** (a full-stack f
 
 ---
 
-> ## 📄 Attestation  
+> ## Attestation  
 > At the conclusion of the project, we received a formal attestation from **Wilhelm Monsen** at TechnipFMC, recognizing our contribution.  
 >  
-> 👉 [View Attest (PDF)](https://tesdal.dev/files/technipfmc-attest.pdf)
+> [View Attest (PDF)](https://tesdal.dev/files/technipfmc-attest.pdf)
 
 ---
 
