@@ -1,3 +1,4 @@
+---
 title: "NixOS: A Declarative System — For Better or Worse"
 date: "2025-08-12"
 author: "Petter Tesdal"
