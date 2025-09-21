@@ -8,4 +8,7 @@ This is an algorithm that is made for head calculation, therefore a simple game 
 
 It is made with in javascript using the Phazer engine.
 
-https://github.com/pettertesdal/doomsDay-game
+
+->[Link to github](https://github.com/pettertesdal/doomsDay-game)
+
+->[Link to game](https://dooms-day-game.vercel.app/)
