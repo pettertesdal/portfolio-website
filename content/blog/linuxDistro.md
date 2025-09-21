@@ -4,9 +4,11 @@ date: "2025-08-12"
 author: "Petter Tesdal"
 ---
 
+# NixOS: A Declarative System - For better or Worse
+My thoughts after using NixOS for a year, and deciding to change distro.
 <!--more-->
 
-# Background
+## Background
 I’ve been using **NixOS** for about a year now, and my feelings toward it are very mixed — I both love it and hate it.  
 
 On the positive side, the declarative approach makes it incredibly easy to see exactly what the system is composed of. Everything is stored in configuration, which means I always have a backup of my setup. If an update breaks something, I can simply roll back and deal with the issue later. That level of reliability is hard to beat.  

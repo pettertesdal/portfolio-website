@@ -5,7 +5,7 @@ author: "Petter Tesdal"
 ---
 
 
-# 🎉The First Post of This New System is finally live!
+# The First Post of This New System is finally live!
 
 After a lot of trial and error, debugging weird errors, and tweaking configurations, I’ve finally set up a working blog system on my PC. Now, I can easily write, publish, and manage articles without relying on external platforms.  
 
