@@ -9,5 +9,4 @@ I first got started on the project through my bachelors, where TechnipFMC got in
 
 The solution we came up with was a project management platform made in Nuxt a fullstack framework. We built the website and connected it to their inhouse MSSQL database. This was a really fun project, and after finishing the bachelours, they asked if we could come back and continue the work. Through out the next year we ironed out the website, made extra features we didn't get time to finish. We added more versions of the website for different inhouse teams that all could be tracked through a summary website.
 
-[Attest](tesdal.dev/files/technipfmc-attest.pdf)
-
+[Attest](https://tesdal.dev/files/technipfmc-attest.pdf)
