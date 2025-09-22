@@ -1,6 +1,6 @@
 <script>
 definePageMeta({
-  layout: 'empty'
+  layout: 'about'
 })
 
 </script>

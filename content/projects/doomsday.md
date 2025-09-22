@@ -11,4 +11,4 @@ It is made with in javascript using the Phazer engine.
 
 ->[Link to github](https://github.com/pettertesdal/doomsDay-game)
 
-->[Link to game](https://dooms-day-game.vercel.app/)
+->[Link to game](/games/Doomsday)
