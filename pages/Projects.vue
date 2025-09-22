@@ -41,11 +41,18 @@ function formatDate(date: string): string {
 
 .projectposts-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: 1fr; /* Default: 1 column on small screens */
   gap: 1.5rem;
   width: 100%;
   max-width: 1200px;
   padding: 1rem;
+}
+
+/* Medium to large screens: 3 columns */
+@media (min-width: 768px) {
+  .projectposts-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .projectposts-item {
@@ -93,11 +100,6 @@ function formatDate(date: string): string {
 
 }
 
-@media (max-width: 768px) {
-  .projectposts-content {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-}
 
 @media (max-width: 480px) {
   .projectposts-content {
