@@ -3,7 +3,7 @@ import SocialLinks from "./Header/SocialLinks.vue"
 
 const socialLinks = [
     { altText: 'X', img: '/assets/twitter-x-seeklogo.com-4.svg', href: 'https://twitter.com/Tesdap' },
-    { altText: 'Github', img: '/assets/icons8-github.svg', href: 'https://github.com/h584903' },
+    { altText: 'Github', img: '/assets/icons8-github.svg', href: 'https://github.com/pettertesdal' },
 ]
 </script>
 <template>
