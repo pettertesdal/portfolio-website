@@ -11,6 +11,7 @@ model Score {
   id        Int      @id @default(autoincrement())
   name      String
   score     Int
+  difficulty Int
   createdAt DateTime @default(now())
 }
 
