@@ -27,13 +27,18 @@ export default defineEventHandler(async (event) => {
       throw createError({ statusCode: 400, statusMessage: "Difficulty required" })
     }
 
-    await prisma.score.create({
-      data: {
-        name: body.name,
-        score: body.score,
-        difficulty,
-      },
-    })
+    try {
+      await prisma.score.create({
+        data: {
+          name: body.name,
+          score: body.score,
+          difficulty,
+        },
+      })
+    } catch (err) {
+      console.error("Prisma error:", err)
+      throw createError({ statusCode: 500, statusMessage: "DB insert failed" })
+    }
 
     return await prisma.score.findMany({
       where: { difficulty },
@@ -41,5 +46,6 @@ export default defineEventHandler(async (event) => {
       take: 10,
     })
   }
+
 })
 
