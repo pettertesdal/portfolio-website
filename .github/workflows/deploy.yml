@@ -4,6 +4,10 @@ on:
   push:
     branches: [ "main" ]
 
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -20,6 +24,6 @@ jobs:
 
       - name: Build and push image
         run: |
-          IMAGE=ghcr.io/${{ github.repository }}:latest
+          IMAGE=ghcr.io/pettertesdal/portfolio-website:latest
           docker build -t $IMAGE .
           docker push $IMAGE
