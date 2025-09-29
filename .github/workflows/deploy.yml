@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Deploy Portfolio to VPS
 
 on:
   push:
@@ -30,3 +30,14 @@ jobs:
           context: .
           push: true
           tags: ghcr.io/pettertesdal/portfolio-website:latest
+
+      - name: SSH into VPS and deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/docker/portfolio
+            docker compose pull
+            docker compose up -d
