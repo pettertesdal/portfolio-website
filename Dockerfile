@@ -11,10 +11,7 @@ FROM node:20-alpine AS runtime
 WORKDIR /app
 
 COPY --from=build /app/.output ./.output
-COPY --from=build /app/package.json ./package.json
-RUN npm install --omit=dev
 
 ENV NODE_ENV=production
 EXPOSE 3000
 CMD ["node", ".output/server/index.mjs"]
-
