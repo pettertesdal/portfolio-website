@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout portfolio site
+      - name: Checkout code
         uses: actions/checkout@v3
 
       - name: Set up Node.js
@@ -18,64 +18,29 @@ jobs:
         with:
           node-version: 20
 
-      # --- Build Nuxt app ---
-      - name: Install dependencies (portfolio site)
+      - name: Install dependencies
         run: npm ci
 
       - name: Build Nuxt app
         run: npm run build
 
-      - name: Archive Nuxt build output
-        run: tar -czf portfolio-output.tar.gz .output
+      - name: Archive build output
+        run: tar -czf output.tar.gz .output
 
-      # --- Pull and build Doomsday game ---
-      - name: Checkout Doomsday repo
-        uses: actions/checkout@v3
-        with:
-          repository: pettertesdal/doomsDay-game
-          path: doomsday
-
-      - name: Install dependencies (Doomsday)
-        working-directory: doomsday
-        run: npm ci
-
-      - name: Build Doomsday
-        working-directory: doomsday
-        run: npm run build
-
-      - name: Archive Doomsday dist
-        working-directory: doomsday
-        run: tar -czf ../doomsday-dist.tar.gz dist
-
-      # --- Deploy to VPS ---
       - name: Set up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: Upload build outputs to VPS
-        run: |
-          scp -o StrictHostKeyChecking=no portfolio-output.tar.gz tesdap@5.249.254.245:/home/tesdap/portfolio-website/
-          scp -o StrictHostKeyChecking=no doomsday-dist.tar.gz tesdap@5.249.254.245:/home/tesdap/doomsDay-game/
+      - name: Upload .output to VPS
+        run: scp -o StrictHostKeyChecking=no output.tar.gz tesdap@5.249.254.245:/home/tesdap/portfolio-website/
 
       - name: Deploy on VPS
         run: |
           ssh -o StrictHostKeyChecking=no tesdap@5.249.254.245 << 'EOF'
-            cd ~/portfolio-website
+            cd portfolio-website
             rm -rf .output
-            tar -xzf portfolio-output.tar.gz
-            rm portfolio-output.tar.gz
-
-            # Deploy Doomsday into public/games/doomsday
-            cd ~/doomsDay-game
-            rm -rf dist
-            tar -xzf doomsday-dist.tar.gz
-            rm doomsday-dist.tar.gz
-            mkdir -p ~/portfolio-website/public/games/doomsday
-            rm -rf ~/portfolio-website/public/games/doomsday/*
-            mv dist/* ~/portfolio-website/public/games/doomsday/
-            rmdir dist
-
-            # Restart the service
+            tar -xzf output.tar.gz
+            rm output.tar.gz
             sudo systemctl restart portfolio-website.service
           EOF
