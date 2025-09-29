@@ -11,6 +11,14 @@ export default defineNuxtConfig({
     }
   },
 
+  nitro: {
+    routeRules: {
+      "/api/**": {
+        cors: true,
+      },
+    },
+  },
+
   routeRules: {
     // prerender index route by default
     '/': { prerender: true },
