@@ -13,4 +13,4 @@ I've also added a fully functioning tutorial teaching you how to do the calculat
 
 ->[Link to github](https://github.com/pettertesdal/doomsDay-game)
 
-  ->[Link to game](https://doomsday.tesdal.dev/)
+->[Link to game](https://doomsday.tesdal.dev/)

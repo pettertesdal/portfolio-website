@@ -16,3 +16,13 @@ model Score {
   createdAt DateTime @default(now())
 }
 
+model Run {
+  id         String   @id @default(cuid())
+  seed       String
+  difficulty Int
+  score      Int      @default(0)
+  mistakes   Int      @default(0)
+  index      Int      @default(0)
+  finished   Boolean  @default(false)
+  startedAt  DateTime @default(now())
+}
