@@ -22,6 +22,8 @@ COPY --from=build /app/node_modules/@prisma ./node_modules/@prisma
 COPY --from=build /app/.output ./.output
 COPY --from=build /app/package.json ./package.json
 
+COPY --from=build /app/prisma ./prisma
+
 ENV NODE_ENV=production
 EXPOSE 3000
 CMD ["node", ".output/server/index.mjs"]
