@@ -1,46 +1,25 @@
-name: Deploy to VM
+name: Deploy with Docker
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
-  deploy:
+  build-and-push:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Log in to GHCR
+        uses: docker/login-action@v2
         with:
-          node-version: 20
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build Nuxt app
-        run: npm run build
-
-      - name: Archive build output
-        run: tar -czf output.tar.gz .output
-
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Upload .output to VPS
-        run: scp -o StrictHostKeyChecking=no output.tar.gz tesdap@5.249.254.245:/home/tesdap/portfolio-website/
-
-      - name: Deploy on VPS
+      - name: Build and push image
         run: |
-          ssh -o StrictHostKeyChecking=no tesdap@5.249.254.245 << 'EOF'
-            cd portfolio-website
-            rm -rf .output
-            tar -xzf output.tar.gz
-            rm output.tar.gz
-            sudo systemctl restart portfolio-website.service
-          EOF
+          IMAGE=ghcr.io/${{ github.repository }}:latest
+          docker build -t $IMAGE .
+          docker push $IMAGE
