@@ -20,32 +20,38 @@ export default defineEventHandler(async (event) => {
   }
 
   if (method === "POST") {
-    const body = await readBody<{ name: string; score: number; difficulty: number }>(event)
-    const difficulty = parseInt(body.difficulty as any)
+  const body = await readBody<{ name: string; score: number; difficulty: number }>(event)
+  const difficulty = parseInt(body.difficulty as any)
 
-    if (isNaN(difficulty)) {
-      throw createError({ statusCode: 400, statusMessage: "Difficulty required" })
-    }
-
-    try {
-      await prisma.score.create({
-        data: {
-          name: body.name,
-          score: body.score,
-          difficulty,
-        },
-      })
-    } catch (err) {
-      console.error("Prisma error:", err)
-      throw createError({ statusCode: 500, statusMessage: "DB insert failed" })
-    }
-
-    return await prisma.score.findMany({
-      where: { difficulty },
-      orderBy: { score: "desc" },
-      take: 10,
-    })
+  if (isNaN(difficulty)) {
+    throw createError({ statusCode: 400, statusMessage: "Difficulty required" })
   }
+
+  try {
+    await prisma.score.upsert({
+      where: { name_difficulty: { name: body.name, difficulty } },
+      update: {
+        // only overwrite if new score is higher
+        score: { gt: body.score } ? body.score : undefined,
+      },
+      create: {
+        name: body.name,
+        score: body.score,
+        difficulty,
+      },
+    })
+  } catch (err) {
+    console.error("Prisma error:", err)
+    throw createError({ statusCode: 500, statusMessage: "DB insert failed" })
+  }
+
+  return await prisma.score.findMany({
+    where: { difficulty },
+    orderBy: { score: "desc" },
+    take: 10,
+  })
+}
+
 
 })
 
