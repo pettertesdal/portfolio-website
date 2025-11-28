@@ -1,31 +1,43 @@
-# Step 1: Build the app
+###
+### STEP 1 — Build stage
+###
 FROM node:20 AS build
+
+# Set working directory
 WORKDIR /app
-COPY package*.json ./
+
+# Copy package.json + lockfile FIRST so docker caching works
+COPY package.json package-lock.json ./
+
+# Install dependencies exactly as in lockfile
 RUN npm ci
+
+# Copy the rest of the application
 COPY . .
 
-# ✅ Generate Prisma client
-COPY prisma ./prisma
-RUN npx prisma generate
+# Ensure Prisma schema & client exist BEFORE generating
+# (prisma directory is already included from COPY . .)
+RUN npx prisma@6.16.2 generate
 
-# Build Nuxt
+# Build Nuxt application
 RUN npm run build
 
-# Step 2: Run the app
+
+###
+### STEP 2 — Runtime stage
+###
 FROM node:20-alpine AS runtime
+
 WORKDIR /app
 
-# Copy prisma folder & generated client
-COPY --from=build /app/node_modules/.prisma ./node_modules/.prisma
-COPY --from=build /app/node_modules/@prisma ./node_modules/@prisma
-
+# Copy only what runtime needs
 COPY --from=build /app/.output ./.output
 COPY --from=build /app/package.json ./package.json
-
+COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/prisma ./prisma
 
 ENV NODE_ENV=production
+
 EXPOSE 3000
 CMD ["node", ".output/server/index.mjs"]
 
