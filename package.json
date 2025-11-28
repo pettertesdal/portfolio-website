@@ -11,13 +11,13 @@
   "devDependencies": {
     "@nuxt/devtools": "^1.0.3",
     "nuxt": "^3.8.2",
-    "prisma": "^6.16.2",
+    "prisma": "6.16.2",
     "vue": "^3.3.8",
     "vue-router": "^4.2.5"
   },
   "dependencies": {
     "@nuxt/content": "^3.3.0",
-    "@prisma/client": "^6.16.2",
+    "@prisma/client": "6.16.2",
     "gsap": "^3.12.7",
     "three": "^0.174.0",
     "unist-util-visit": "^5.0.0",

@@ -6,6 +6,7 @@ RUN npm ci
 COPY . .
 
 # ✅ Generate Prisma client
+COPY prisma ./prisma
 RUN npx prisma generate
 
 # Build Nuxt
